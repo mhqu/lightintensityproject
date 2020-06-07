@@ -1,0 +1,56 @@
+// check the intensity of light to give results accordingly 
+
+int led1 = A4; // ligts up red when the light intensity is low, connected to A4 pin at argon 
+int led2 = A5; // blinks when the light intensity is mediam, connected to A5 pin at argon 
+
+int Phototransistor = A0; // to get the value of intensity 
+
+// boundry values for different levels of intensity to be used in the system 
+int Light_High_Intensity = 250; 
+int Light_Mediam_Intensity = 120;
+int Light_Low_Intensity = 5;
+
+void setup() 
+{
+    pinMode(led1, OUTPUT); // led used for the output which states that the light intensity is less then 5 
+    pinMode(led2, OUTPUT); // led used for the output which states that the light intensity is between 5 and 120
+    pinMode(Phototransistor, INPUT); // Phototransistor used as an input 
+}
+
+// when the light intensity will be high (above 250) both the lights turns off
+
+// while if the light intensity will be low (below 5) red light or led1  turns onn
+
+// and if the light intensity is mediam (between 5 and 120) green light or led2 starts blinking
+void loop() {
+    int LightData = analogRead(Phototransistor); // used to take the light intensity value using phototransistor
+    
+    if(LightData > Light_High_Intensity) // here both the lights remains off 
+    {
+        digitalWrite(led1, LOW);
+        digitalWrite(led2, LOW);
+    }
+    
+    else if(LightData < Light_Mediam_Intensity && LightData > Light_Low_Intensity) // here red light or led1 is off while the green light or led2 is blinking 
+    // with a delay of 0.3 seconds 
+    {
+        digitalWrite(led2,HIGH);
+        delay(300);
+        digitalWrite(led2,LOW);
+        delay(300);
+        digitalWrite(led2,HIGH);
+        delay(300);
+        digitalWrite(led2,LOW);
+        delay(300);
+        digitalWrite(led2,HIGH);
+        delay(300);
+        digitalWrite(led2,LOW);
+        delay(300);
+        digitalWrite(led2,HIGH);
+        delay(300);
+    }
+    else if (LightData < Light_Low_Intensity){ // here the green blinking light turns off while the red light turns onn 
+       digitalWrite(led1, HIGH);
+        digitalWrite(led2, LOW);
+    }
+}
